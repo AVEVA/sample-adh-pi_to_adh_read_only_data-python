@@ -7,14 +7,14 @@ trigger:
 pr:
   branches:
     include:
-      - main
+      - initial-sample
 
 schedules:
   - cron: '0 0 * * 0'
     displayName: Weekly build
     branches:
       include:
-        - main
+        - initial-sample
     always: true
 
 resources:
