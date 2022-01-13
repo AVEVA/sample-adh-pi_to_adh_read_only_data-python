@@ -2,7 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-      - initial_sample
+      - initial-sample
 
 pr:
   branches:
