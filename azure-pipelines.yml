@@ -59,6 +59,33 @@ jobs:
           testRunTitle: '$(Agent.JobName) on $(Agent.OS)'
         displayName: 'Publish test results'
         condition: always()
+        
+  - job: Tests_OCS_Community
+    pool:
+      name: 00-OSIManaged-Containers
+      demands: Agent.OS -equals Linux
+    steps:
+      - template: '/miscellaneous/build_templates/appsettings.yml@templates'
+        parameters:
+          secrets: 'TenantId, NamespaceId, CommunityId, ClientId, ClientSecret, StreamId'
+
+      - script: |
+          echo Install test tools   
+          pip install pytest
+          echo Install requirements
+          pip install -r requirements.txt
+          echo Run tests
+          python -m pytest --junitxml=junit/test-results.xml ./test.py
+          echo Complete
+        displayName: 'Run tests'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/test-*.xml'
+          failTaskOnFailedTests: true
+          testRunTitle: '$(Agent.JobName) on $(Agent.OS)'
+        displayName: 'Publish test results'
+        condition: always()
 
   - template: '/miscellaneous/build_templates/code-analysis.yml@templates'
     parameters:
