@@ -77,49 +77,37 @@ def main(test=False):
 
         # Step 3 Show Verbosity with Last Value
         # Create OCS client with verbose
-        print('Let\'s first create an OCSClient with accept-verbose as True to see the meta data columns included:')
+        print('Let\'s first use accept-verbose as True to see the PI point property columns included:')
         print()
+        sds_client.acceptverbosity = True
 
-        verbose_client = OCSClient(
-                        appsettings.get('ApiVersion'),
-                        appsettings.get('TenantId'),
-                        appsettings.get('Resource'),
-                        appsettings.get('ClientId'),
-                        appsettings.get('ClientSecret'),
-                        accept_verbosity=True)
-
-        print('Getting latest event of the stream, note how we can see the PI to OCS metadata included:')
+        print('Getting latest event of the stream, note how we can see the properties included:')
         if community_id:
-            values = verbose_client.SharedStreams.getLastValue(community_tenant_id, community_namespace_id, community_id, stream.Id)
+            values = sds_client.SharedStreams.getLastValue(community_tenant_id, community_namespace_id, community_id, stream.Id)
         else:
-            values = verbose_client.Streams.getLastValue(namespace_id, stream.Id)
+            values = sds_client.Streams.getLastValue(namespace_id, stream.Id)
         
         print(values)
         print()
         print('Now let\'s use accept-verbosity as False to see the difference:')
-
-        non_verbose_client = OCSClient(
-                        appsettings.get('ApiVersion'),
-                        appsettings.get('TenantId'),
-                        appsettings.get('Resource'),
-                        appsettings.get('ClientId'),
-                        appsettings.get('ClientSecret'),
-                        accept_verbosity=False)
+        sds_client.acceptverbosity = False
 
         if community_id:
-            values = non_verbose_client.SharedStreams.getLastValue(community_tenant_id, community_namespace_id, community_id, stream.Id)
+            values = sds_client.SharedStreams.getLastValue(community_tenant_id, community_namespace_id, community_id, stream.Id)
         else:
-            values = non_verbose_client.Streams.getLastValue(namespace_id, stream.Id)
+            values = sds_client.Streams.getLastValue(namespace_id, stream.Id)
         
         print(values)
         print()
 
         # Step 4 Get Window Events
         # Get events from the last day using verbose
+        sds_client.acceptverbosity = True
+
         if community_id:
-            values = verbose_client.SharedStreams.getWindowValues(community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex)        
+            values = sds_client.SharedStreams.getWindowValues(community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex)        
         else:
-            values = verbose_client.Streams.getWindowValues(namespace_id, stream.Id, start=startIndex, end=endIndex)
+            values = sds_client.Streams.getWindowValues(namespace_id, stream.Id, start=startIndex, end=endIndex)
         
         print('Getting window events with verbosity accepted:')
         print(f'Total events found: {str(len(values))}')
@@ -128,23 +116,27 @@ def main(test=False):
         print()
 
         # Get events from the last day using non-verbose
+        sds_client.acceptverbosity = False
+
         if community_id:
-            values = non_verbose_client.SharedStreams.getWindowValues(community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex)
+            values = sds_client.SharedStreams.getWindowValues(community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex)
         else:
-            values = non_verbose_client.Streams.getWindowValues(namespace_id, stream.Id, start=startIndex, end=endIndex)
+            values = sds_client.Streams.getWindowValues(namespace_id, stream.Id, start=startIndex, end=endIndex)
         
-        print('Getting window events without verbosity accepted:')
+        print('Getting window events with verbosity not accepted:')
         print(f'Total events found: {str(len(values))}')
         for val in values:
             print(val)
         print()
 
         # Get events from the last day including headers
+        sds_client.acceptverbosity = True
+
         if community_id:
-            values = verbose_client.SharedStreams.getWindowValuesForm(
+            values = sds_client.SharedStreams.getWindowValuesForm(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex, form='tableh')
         else:
-            values = verbose_client.Streams.getWindowValuesForm(namespace_id, stream.Id, None, start=startIndex, end=endIndex, form='tableh')
+            values = sds_client.Streams.getWindowValuesForm(namespace_id, stream.Id, None, start=startIndex, end=endIndex, form='tableh')
 
         print('Getting window events as a table with headers:')
         for val in values['Rows']:
@@ -153,11 +145,11 @@ def main(test=False):
 
         # Step 5 Get Range Events
         if community_id:
-            values = verbose_client.SharedStreams.getRangeValues(
+            values = sds_client.SharedStreams.getRangeValues(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, value_class=None, skip=0, count=10, 
                 reversed=False, boundary_type=0)
         else:
-            values = verbose_client.Streams.getRangeValues(
+            values = sds_client.Streams.getRangeValues(
                 namespace_id, stream.Id, start=startIndex, value_class=None, skip=0, count=10, 
                 reversed=False, boundary_type=0)
 
@@ -168,11 +160,13 @@ def main(test=False):
         print()
 
         # Step 6 Get Interpolated Events
+        sds_client.acceptverbosity = False
+
         if community_id:
-            retrieved_interpolated = non_verbose_client.SharedStreams.getRangeValuesInterpolated(
+            retrieved_interpolated = sds_client.SharedStreams.getRangeValuesInterpolated(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex, count=10)
         else:
-            retrieved_interpolated = non_verbose_client.Streams.getRangeValuesInterpolated(
+            retrieved_interpolated = sds_client.Streams.getRangeValuesInterpolated(
                 namespace_id, stream.Id, None, start=startIndex, end=endIndex, count=10)
 
         print('Sds can interpolate or extrapolate data at an index location '
@@ -192,10 +186,10 @@ def main(test=False):
         print(f'To show the filter functionality, we will use the less than operator. Based on the data that we have received, {average_value} is the average value, we will use this as a threshold.')
         print(f'Getting filtered events for values less than {average_value}:')
         if community_id:
-            filtered_events = non_verbose_client.SharedStreams.getWindowValues(
+            filtered_events = sds_client.SharedStreams.getWindowValues(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt {average_value}')
         else:
-            filtered_events = non_verbose_client.Streams.getWindowValues(
+            filtered_events = sds_client.Streams.getWindowValues(
                 namespace_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt {average_value}')
 
         print(f'Total events found: {str(len(filtered_events))}')
