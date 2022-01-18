@@ -1,8 +1,8 @@
 # Reading PI to OCS Values from Sequential Data Store Python Sample
 
-**Version:** 0.1
+**Version:** 1.0
 
-[![Build Status]()
+[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-pi-to-ocs-read-only-data-python?repoName=osisoft%2Fsample-pi-to-ocs-read-only-data-python&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=4498&repoName=osisoft%2Fsample-pi-to-ocs-read-only-data-python&branchName=main)
 
 ## Building a Python client to make REST API calls to the SDS Service
 
@@ -12,7 +12,7 @@ The sections that follow provide a brief description of the process from beginni
 
 `Note: This sample requires an Id of a PI to OCS stream already created in SDS.`
 
-Developed against Python 3.9.5
+Developed against Python 3.10.1
 
 ## To Run this Sample
 
@@ -257,8 +257,8 @@ Note that there are more methods provided in the SdsClient than are discussed in
 
 ---
 
-Automated test uses Python XXXXXXXXXXXX x64
+Automated test uses Python 3.9.1 x64
 
-For the main PI to OCS read only stream samples page [ReadMe](XXXXXXXXXXXXXXXXXX)
-For the main OCS samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)  
+For the main PI to OCS read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS.md)  
+For the main OCS samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
 For the main OSIsoft samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
