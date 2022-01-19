@@ -6,7 +6,7 @@
 
 ## Building a Python client to make REST API calls to the SDS Service
 
-The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from streams in SDS created from a PI to OCS transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
+The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from a stream in SDS created from a PI to OCS transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
 
 The sections that follow provide a brief description of the process from beginning to end.
 
@@ -75,11 +75,11 @@ The SDS Service is secured using Azure Active Directory. The sample application 
 
 Log on to the [Cloud Portal](https://cloud.osisoft.com) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
 
-To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from PI to OCS streams to be used. 
+To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from PI to OCS stream to be used. 
 
 To create a new secret for a client, select the client and click the `Add Secret` button under the client details pane then follow the prompts. Note that the secret is only displayed at the time of creation and cannot be retrieved at a later time.
 
-Finally, a query string to retrieve the streams to read from must be given. For more information on how to define this see [Search in SDS](https://docs.osisoft.com/bundle/ocs/page/developer-guide/sequential-data-store-dev/sds-search.html)
+Finally, a query string to retrieve the stream to read from must be given. For more information on how to define this see [Search in SDS](https://docs.osisoft.com/bundle/ocs/page/developer-guide/sequential-data-store-dev/sds-search.html)
 
 ### Config Schema
 
