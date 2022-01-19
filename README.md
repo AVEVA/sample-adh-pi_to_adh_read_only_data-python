@@ -174,26 +174,29 @@ The amount of information included can be managed by setting the verbosity, whic
 
 #### Verbosity
 
-SDS read APIs supports an accept-verbosity header that will set whether verbose output should be excluded. A value is considered verbose if it is the default value for its type, such as false for a boolean, None for a string, etc. The following example output demonstrates responses for the same call using verbose and non-verbose values:
+SDS read APIs supports an accept-verbosity header that will set whether verbose output should be excluded. A value is considered verbose if it is the default value for its type, such as false for a boolean, null for a string, etc. The following example output demonstrates responses for the same call using verbose and non-verbose values:
 
 accept-verbosity = verbose
+```json
 {
-  'Timestamp': '2021-12-15T01:39:05Z',
-  'Value': 98.30506,
-  'IsQuestionable': False,
-  'IsSubstituted': True,
-  'IsAnnotated': False,
-  'SystemStateCode': None,
-  'DigitalStateName': None
+  "Timestamp": "2021-12-15T01:39:05Z",
+  "Value": 98.30506,
+  "IsQuestionable": false,
+  "IsSubstituted": true,
+  "IsAnnotated": false,
+  "SystemStateCode": null,
+  "DigitalStateName": null
 }
+```
 
-accept-verbosity = none-verbose
+accept-verbosity = non-verbose
+```json
 {
-  'Timestamp': '2021-12-15T01:39:05Z',
-  'Value': 98.30506,
-  'IsSubstituted': True,
+  "Timestamp": "2021-12-15T01:39:05Z",
+  "Value": 98.30506,
+  "IsSubstituted": true,
 }
-
+```
 Note that since `IsSubstituted` is True it is still included in both responses while the other values are excluded when not accepting verbose values.
 
 When using the python sample library, this option is configurable when creating the `OCSClient` object by providing True or False for the `accept_verbosity` constructor parameter.
@@ -259,6 +262,6 @@ Note that there are more methods provided in the SdsClient than are discussed in
 
 Automated test uses Python 3.9.1 x64
 
-For the main PI to OCS read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS.md)  
+For the main PI to OCS read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS_READ_DATA.md)  
 For the main OCS samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
 For the main OSIsoft samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
