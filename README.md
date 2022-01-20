@@ -75,7 +75,7 @@ The SDS Service is secured using Azure Active Directory. The sample application 
 
 Log on to the [Cloud Portal](https://cloud.osisoft.com) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
 
-To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from PI to OCS stream to be used. 
+To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to OCS stream to be used. 
 
 To create a new secret for a client, select the client and click the `Add Secret` button under the client details pane then follow the prompts. Note that the secret is only displayed at the time of creation and cannot be retrieved at a later time.
 
@@ -100,7 +100,7 @@ The values to be replaced are in `appsettings.json`:
 
 ### Community
 
-If you are accessing a stream shared in an OCS community, enter the community Id in the `CommunityId` and owning field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
+If you are accessing a stream shared in an OCS community, enter the community Id in the `CommunityId` field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
 
 If you are not using OCS communities, leave the `CommunityId` field blank.
 
@@ -151,14 +151,16 @@ streams = getStreams(self, namespace_id, query, skip, count):
 
 **namespace_id**: is the Id of the namespace to query against.
 **query**: is the query to use.
-**skip**: is the number of streams to skip for paging
-**count**: is the number of streams to limit to
+**skip**: is the number of streams to skip for paging.
+**count**: is the number of streams to limit to.
 
 - A JSON object containing an array of streams is returned.
 
 ## Retrieve Values from a Stream
 
 The SDS read API features different methods of reading values, in this sample we will demonstrate reading Window, Range, and Filtered values, as well as using Interpolation.
+
+#### PI to OCS Stream properties
 
 When ingressing data using PI to OCS, the resulting stream types contain a certain set of PI point attributes as stream type properties to give more information about the data:
 
@@ -199,7 +201,10 @@ accept-verbosity = non-verbose
 ```
 Note that since `IsSubstituted` is True it is still included in both responses while the other values are excluded when not accepting verbose values.
 
-When using the python sample library, this option is configurable when creating the `OCSClient` object by providing True or False for the `accept_verbosity` constructor parameter.
+When using the python sample library, this option is configurable when creating the `OCSClient` object by providing True or False for the `accept_verbosity` constructor parameter, or by calling the setter method
+```python
+client.acceptverbosity = False
+```
 
 ### Get Window Values
 
