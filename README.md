@@ -34,11 +34,11 @@ or
 
 ## PI Tag Name to OCS Stream Id
 
-Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to OCS stream corresponding to your PI tag name in SDS, you can search in the portal using the following format:
+Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to OCS stream corresponding to your PI tag name in SDS, you can search in the SDS portal using the following format:
 
 ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>
 
-The SDS portal can found by navigating to the [Cloud Portal](http://cloud.osisoft.com) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
+The SDS portal can be found by navigating to the [Cloud Portal](http://cloud.osisoft.com) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
 
 To do this programatically you can use the `getStreams` method, for more information see the [Retrieve Streams by Query](#retreive-streams-by-query) section below.
 ## Establish a Connection
