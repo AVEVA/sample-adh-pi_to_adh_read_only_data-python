@@ -1,16 +1,19 @@
-# Reading PI to OCS Values from Sequential Data Store Python Sample
+# Reading PI to ADH Values from Sequential Data Store Python Sample
+
+| :loudspeaker: **Notice**: Samples have been updated to reflect that they work on AVEVA Data Hub. The samples also work on OSIsoft Cloud Services unless otherwise noted. |
+| -----------------------------------------------------------------------------------------------|  
 
 **Version:** 1.0
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-pi-to-ocs-read-only-data-python?repoName=osisoft%2Fsample-pi-to-ocs-read-only-data-python&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=4498&repoName=osisoft%2Fsample-pi-to-ocs-read-only-data-python&branchName=main)
+[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-pi-to-adh-read-only-data-python?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=4498&branchName=main)
 
 ## Building a Python client to make REST API calls to the SDS Service
 
-The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from a stream in SDS created from a PI to OCS transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
+The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from a stream in SDS created from a PI to ADH transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
 
 The sections that follow provide a brief description of the process from beginning to end.
 
-`Note: This sample requires an Id of a PI to OCS stream already created in SDS.`
+`Note: This sample requires an Id of a PI to ADH stream already created in SDS.`
 
 Developed against Python 3.10.1
 
@@ -20,7 +23,7 @@ Developed against Python 3.10.1
 1. Install required modules: `pip install -r requirements.txt`
 1. Open the folder with your favorite IDE
 1. Configure the sample using the file [appsettings.placeholder.json](appsettings.placeholder.json). Before editing, rename this file to `appsettings.json`. This repository's `.gitignore` rules should prevent the file from ever being checked in to any fork or branch, to ensure credentials are not compromised.
-1. Update `appsettings.json` with the credentials provided by OSIsoft
+1. Update `appsettings.json` with the credentials provided by AVEVA
 1. Run `program.py`
 
 To Test the sample:
@@ -32,13 +35,13 @@ or
 1. Install pytest `pip install pytest`
 1. Run `pytest program.py`
 
-## PI Tag Name to OCS Stream Id
+## PI Tag Name to ADH Stream Id
 
-Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to OCS stream corresponding to your PI tag name in SDS, you can search in the SDS portal using the following format:
+Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to ADH stream corresponding to your PI tag name in SDS, you can search in the SDS portal using the following format:
 
 ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>
 
-The SDS portal can be found by navigating to the [Cloud Portal](http://cloud.osisoft.com) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
+The SDS portal can be found by navigating to the [Cloud Portal](http://datahub.connect.aveva) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
 
 To do this programatically you can use the `getStreams` method, for more information see the [Retrieve Streams by Query](#retreive-streams-by-query) section below.
 ## Establish a Connection
@@ -50,7 +53,7 @@ response = requests.post(url, data=payload, headers=client_headers)
 ```
 
 - _url_ is the service endpoint (for example:
-  `https://dat-a.osisoft.com`). The connection is used by the `SdsClient` class.
+  `https://uswe.datahub.connect.aveva.com`). The connection is used by the `SdsClient` class.
 
 Each call to the SDS REST API consists of an HTTP request along with a specific URL and HTTP method. The URL consists of the server name plus the extension that is specific to the call. Like all REST APIs, the SDS REST API maps HTTP methods to CRUD operations as shown in the following table:
 
@@ -61,21 +64,21 @@ Each call to the SDS REST API consists of an HTTP request along with a specific 
 | PUT         | Update         | message body     |
 | DELETE      | Delete         | URL parameters   |
 
-Note: Only the GET method will be used in this sample as it targets clients limited to read permissions, the [OCS waveform sample](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md) is available and more in depth to cover every HTTP method.
+Note: Only the GET method will be used in this sample as it targets clients limited to read permissions, the [ADH waveform sample](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md) is available and more in depth to cover every HTTP method.
 
 ## Configure the Sample
 
 Included in the sample there is a configuration file with placeholders that need to be replaced with the proper values. They include information for authentication, connecting to the SDS Service, pointing to a namespace, and retrieving stream data.
 
-### OSIsoft Cloud Services
+### AVEVA Data Hub
 
-First, a valid namespace Id for the tenant must be given. In SDS, a namespace provides isolation within a Tenant. Each namespace has its own collection of Streams, Types, and Stream Views. It is not possible to programmatically create or delete a namespace. If you are a new user, be sure to go to the [Cloud Portal](http://cloud.osisoft.com) and create a namespace using your tenant login credentials provided by OSIsoft. You must provide the namespace Id of a valid namespace in `appsettings.json` for the sample to function properly.
+First, a valid namespace Id for the tenant must be given. In SDS, a namespace provides isolation within a Tenant. Each namespace has its own collection of Streams, Types, and Stream Views. It is not possible to programmatically create or delete a namespace. If you are a new user, be sure to go to the [Cloud Portal](http://datahub.connect.aveva) and create a namespace using your tenant login credentials provided by AVEVA. You must provide the namespace Id of a valid namespace in `appsettings.json` for the sample to function properly.
 
 The SDS Service is secured using Azure Active Directory. The sample application is an example of a _credential client_. Credential clients provide a client Id and secret that are authenticated against the directory and are associated with a given tenant. They are created through the tenant's Security portal. The steps necessary to create a new client Id and secret are described below.
 
-Log on to the [Cloud Portal](https://cloud.osisoft.com) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
+Log on to the [Cloud Portal](https://datahub.connect.aveva) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
 
-To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to OCS stream to be used. 
+To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to ADH stream to be used. 
 
 To create a new secret for a client, select the client and click the `Add Secret` button under the client details pane then follow the prompts. Note that the secret is only displayed at the time of creation and cannot be retrieved at a later time.
 
@@ -87,7 +90,7 @@ The values to be replaced are in `appsettings.json`:
 
 ```json
 {
-  "Resource": "https://dat-b.osisoft.com",
+  "Resource": "https://uswe.datahub.connect.aveva",
   "ApiVersion": "v1",
   "TenantId": "PLACEHOLDER_REPLACE_WITH_TENANT_ID",
   "NamespaceId": "PLACEHOLDER_REPLACE_WITH_NAMESPACE_ID",
@@ -100,9 +103,9 @@ The values to be replaced are in `appsettings.json`:
 
 ### Community
 
-If you are accessing a stream shared in an OCS community, enter the community Id in the `CommunityId` field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
+If you are accessing a stream shared in an ADH community, enter the community Id in the `CommunityId` field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
 
-If you are not using OCS communities, leave the `CommunityId` field blank.
+If you are not using ADH communities, leave the `CommunityId` field blank.
 
 ## Obtain an Authentication Token
 
@@ -122,7 +125,7 @@ This is handled by the python library.
 
 ## Retrieve Stream
 
-To run this sample we will need to first retrieve the PI to OCS stream to read values from. This is done by calling the `getStream` method providing the Id of the stream to retrieve. The stream Id is configured in the `appsettings.json` file as `StreamId`.
+To run this sample we will need to first retrieve the PI to ADH stream to read values from. This is done by calling the `getStream` method providing the Id of the stream to retrieve. The stream Id is configured in the `appsettings.json` file as `StreamId`.
 
 `getStream` is used for retrieving a stream and its information. This is the function definition:
 
@@ -143,7 +146,7 @@ stream = client.Streams.getStream(self, namespace_id, stream_id)
 
 ## Retreive Streams by Query
 
-If you would like to query SDS for multiple streams we can use the `getStreams` method providing a query parameter. This could be used to find PI to OCS streams given your PI tag and PI Server names as shown earlier by providing the same query format, ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>. Following is the function definition:
+If you would like to query SDS for multiple streams we can use the `getStreams` method providing a query parameter. This could be used to find PI to ADH streams given your PI tag and PI Server names as shown earlier by providing the same query format, ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>. Following is the function definition:
 
 ```python
 streams = getStreams(self, namespace_id, query, skip, count):
@@ -160,9 +163,9 @@ streams = getStreams(self, namespace_id, query, skip, count):
 
 The SDS read API features different methods of reading values, in this sample we will demonstrate reading Window, Range, and Filtered values, as well as using Interpolation.
 
-#### PI to OCS Stream properties
+#### PI to ADH Stream properties
 
-When ingressing data using PI to OCS, the resulting stream types contain a certain set of PI point attributes as stream type properties to give more information about the data:
+When ingressing data using PI to ADH, the resulting stream types contain a certain set of PI point attributes as stream type properties to give more information about the data:
 
 | Column         | Description     | 
 |--------------|-----------|
@@ -201,7 +204,7 @@ accept-verbosity = non-verbose
 ```
 Note that since `IsSubstituted` is True it is still included in both responses while the other values are excluded when not accepting verbose values.
 
-When using the python sample library, this option is configurable when creating the `OCSClient` object by providing True or False for the `accept_verbosity` constructor parameter, or by calling the setter method
+When using the python sample library, this option is configurable when creating the `ADHClient` object by providing True or False for the `accept_verbosity` constructor parameter, or by calling the setter method
 ```python
 client.acceptverbosity = False
 ```
@@ -267,6 +270,6 @@ Note that there are more methods provided in the SdsClient than are discussed in
 
 Automated test uses Python 3.9.1 x64
 
-For the main PI to OCS read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS_READ_DATA.md)  
-For the main OCS samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
-For the main OSIsoft samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
+For the main PI to ADH read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS_READ_DATA.md)  
+For the main ADH samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
+For the main AVEVA samples page [ReadMe](https://github.com/osisoft/OSI-Samples)

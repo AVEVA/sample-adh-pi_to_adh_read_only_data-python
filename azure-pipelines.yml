@@ -33,7 +33,7 @@ variables:
     value: PI_TO_OCS_READ_ONLY_PYTHON
 
 jobs:
-  - job: Tests_OCS
+  - job: Tests_ADH
     pool:
       name: 00-OSIManaged-Containers
       demands: Agent.OS -equals Linux
@@ -60,14 +60,14 @@ jobs:
         displayName: 'Publish test results'
         condition: always()
         
-  - job: Tests_OCS_Community
+  - job: Tests_ADH_Community
     pool:
       name: 00-OSIManaged-Containers
       demands: Agent.OS -equals Linux
     steps:
       - template: '/miscellaneous/build_templates/appsettings.yml@templates'
         parameters:
-          secrets: 'TenantId, NamespaceId, CommunityId, ClientId, ClientSecret, StreamId'
+          secrets: 'TenantId, NamespaceId, CommunityId, ClientId, ClientSecret, StreamId, Resource'
 
       - script: |
           echo Install test tools   

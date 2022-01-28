@@ -3,7 +3,7 @@
 import json
 import datetime
 
-from ocs_sample_library_preview import (OCSClient)
+from ocs_sample_library_preview import (ADHClient)
 
 def get_appsettings():
     """Open and parse the appsettings.json file"""
@@ -33,7 +33,7 @@ def main(test=False):
         community_id = appsettings.get('CommunityId')
         stream_id = appsettings.get('StreamId')
 
-        sds_client = OCSClient(
+        sds_client = ADHClient(
             appsettings.get('ApiVersion'),
             appsettings.get('TenantId'),
             appsettings.get('Resource'),
@@ -58,8 +58,8 @@ def main(test=False):
         endIndex = datetime.datetime.utcnow()
         startIndex = endIndex - datetime.timedelta(days=1)
 
-        # Step 2 Get PI to OCS Stream
-        print('Getting PI to OCS stream')
+        # Step 2 Get PI to ADH Stream
+        print('Getting PI to ADH stream')
 
         if community_id:
             stream = next(iter(sds_client.Communities.getCommunityStreams(community_id, f'id:{stream_id}')), None)
@@ -76,7 +76,7 @@ def main(test=False):
         print()
 
         # Step 3 Show Verbosity with Last Value
-        # Create OCS client with verbose
+        # Create ADH client with verbose
         print('Let\'s first use accept-verbose as True to see the PI point property columns included:')
         print()
         sds_client.acceptverbosity = True
