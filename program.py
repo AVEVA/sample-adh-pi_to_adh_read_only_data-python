@@ -26,6 +26,7 @@ def main(test=False):
     """This function is the main body of the SDS sample script"""
     exception = None
     try:
+        print('Step 1. Authenticate against OCS')
         appsettings = get_appsettings()
 
         # Step 1
@@ -58,8 +59,8 @@ def main(test=False):
         endIndex = datetime.datetime.utcnow()
         startIndex = endIndex - datetime.timedelta(days=1)
 
-        # Step 2 Get PI to ADH Stream
-        print('Getting PI to ADH stream')
+        # Get PI to ADH Stream
+        print('Step 2. Retrieve stream')
 
         if community_id:
             stream = next(iter(sds_client.Communities.getCommunityStreams(community_id, f'id:{stream_id}')), None)
@@ -75,6 +76,7 @@ def main(test=False):
         print(f'Stream found: {stream.Id}')
         print()
 
+        print('Step 3. Show verbosity')
         # Step 3 Show Verbosity with Last Value
         # Create ADH client with verbose
         print('Let\'s first use accept-verbose as True to see the PI point property columns included:')
@@ -109,6 +111,7 @@ def main(test=False):
         else:
             values = sds_client.Streams.getWindowValues(namespace_id, stream.Id, start=startIndex, end=endIndex)
         
+        print('Step 4. Retrieve Window events')
         print('Getting window events with verbosity accepted:')
         print(f'Total events found: {str(len(values))}')
         for val in values:
@@ -138,6 +141,7 @@ def main(test=False):
         else:
             values = sds_client.Streams.getWindowValuesForm(namespace_id, stream.Id, None, start=startIndex, end=endIndex, form='tableh')
 
+        print('Step 5. Retrieve Window events in table form')
         print('Getting window events as a table with headers:')
         for val in values['Rows']:
             print(val)
@@ -153,6 +157,7 @@ def main(test=False):
                 namespace_id, stream.Id, start=startIndex, value_class=None, skip=0, count=10, 
                 reversed=False, boundary_type=0)
 
+        print('Step 6. Retrieve Range events')
         print('Getting range events with verbosity accepted:')
         print(f'Total events found: {str(len(values))}')
         for val in values:
@@ -169,6 +174,7 @@ def main(test=False):
             retrieved_interpolated = sds_client.Streams.getRangeValuesInterpolated(
                 namespace_id, stream.Id, None, start=startIndex, end=endIndex, count=10)
 
+        print('Step 7. Retrieve Interpolated events')
         print('Sds can interpolate or extrapolate data at an index location '
               'where data does not explicitly exist:')
         print('Getting interpolated events with non-verbose client:')
@@ -183,6 +189,7 @@ def main(test=False):
         else:
             average_value = 0
 
+        print('Step 8. Retrieve Filtered events')
         print(f'To show the filter functionality, we will use the less than operator. Based on the data that we have received, {average_value} is the average value, we will use this as a threshold.')
         print(f'Getting filtered events for values less than {average_value}:')
         if community_id:
