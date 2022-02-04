@@ -29,7 +29,7 @@ def main(test=False):
         print('Step 1. Authenticate against OCS')
         appsettings = get_appsettings()
 
-        # Step 1
+        # Step 1 Try to open the configuration file
         namespace_id = appsettings.get('NamespaceId')
         community_id = appsettings.get('CommunityId')
         stream_id = appsettings.get('StreamId')
@@ -55,7 +55,7 @@ def main(test=False):
         print(f'Sds endpoint at {sds_client.uri}')
         print()
 
-        # Create start and end indices for the past day
+        # Step 2 Create start and end indices for the past day
         endIndex = datetime.datetime.utcnow()
         startIndex = endIndex - datetime.timedelta(days=1)
 
@@ -102,7 +102,7 @@ def main(test=False):
         print(values)
         print()
 
-        # Step 4 Get Window Events
+        # Step 5 Get Window Events
         # Get events from the last day using verbose
         sds_client.acceptverbosity = True
 
@@ -147,7 +147,7 @@ def main(test=False):
             print(val)
         print()    
 
-        # Step 5 Get Range Events
+        # Step 6 Get Range Events
         if community_id:
             values = sds_client.SharedStreams.getRangeValues(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, value_class=None, skip=0, count=10, 
@@ -164,7 +164,7 @@ def main(test=False):
             print(val)
         print()
 
-        # Step 6 Get Interpolated Events
+        # Step 7 Get Interpolated Events
         sds_client.acceptverbosity = False
 
         if community_id:
@@ -182,7 +182,7 @@ def main(test=False):
             print(val)
         print()
 
-        # Step 7 Get Filtered Events
+        # Step 8 Get Filtered Events
         if values:
             values_only = [value['Value'] for value in retrieved_interpolated]
             average_value = sum(values_only) / len(values_only)
@@ -190,14 +190,14 @@ def main(test=False):
             average_value = 0
 
         print('Step 8. Retrieve Filtered events')
-        print(f'To show the filter functionality, we will use the less than operator. Based on the data that we have received, {average_value} is the average value, we will use this as a threshold.')
-        print(f'Getting filtered events for values less than {average_value}:')
+        print(f'To show the filter functionality, we will use the less than operator to show values less than 0. (You can replace the value in the filter statements below to update this)')
+        print(f'Getting filtered events for values less than 0:')
         if community_id:
             filtered_events = sds_client.SharedStreams.getWindowValues(
-                community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt {average_value}')
+                community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt 0')
         else:
             filtered_events = sds_client.Streams.getWindowValues(
-                namespace_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt {average_value}')
+                namespace_id, stream.Id, start=startIndex, end=endIndex, value_class=None, filter=f'Value lt 0')
 
         print(f'Total events found: {str(len(filtered_events))}')
         for val in filtered_events:
