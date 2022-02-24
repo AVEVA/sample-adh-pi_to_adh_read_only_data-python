@@ -209,6 +209,10 @@ When using the python sample library, this option is configurable when creating 
 client.acceptverbosity = False
 ```
 
+This can also be observed using the API Console in [Data Hub](https://datahub.connect.aveva.com) by clicking the 'Headers' button and toggling the 'Accept-Verbosity' setting.
+
+![API console](images/apiconsole.png)
+
 ### Get Window Values
 
 `getWindowValues` is used for retrieving events over a specific index range. This is the function definition:

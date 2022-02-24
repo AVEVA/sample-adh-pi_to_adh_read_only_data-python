@@ -1,8 +1,8 @@
 """This sample script demonstrates how to invoke the Sequential Data Store REST API for read only clients"""
 
 import json
+import datetime
 
-from datetime import datetime
 from ocs_sample_library_preview import (ADHClient)
 
 def get_appsettings():
@@ -63,7 +63,7 @@ def main(test=False):
         print()
 
         # Create start and end indices for the past day
-        currentTime = datetime.utcnow()
+        currentTime = datetime.datetime.utcnow()
         endIndex = currentTime
         startIndex = endIndex - datetime.timedelta(days=1)
 
