@@ -111,16 +111,19 @@ if __name__ == '__main__':
         appsettings.get('ClientId'),
         appsettings.get('ClientSecret'))
 
-    # Get or create SDS Type and Stream to use
+    print('Get or create SDS Type and Stream to use') 
     type = create_type(sds_client, type_id=type_id)
     stream = create_stream(sds_client=sds_client, stream_id=stream_id, type_id=type.Id)
 
-    # Create and upload test values, sleeping 1 second in between creation to avoid identical timestamps
+    print('Create and upload test values, sleeping 1 second in between creation to avoid identical timestamps')
     values = create_test_values()
     sds_client.Streams.insertValues(namespace_id=namespace_id, stream_id=stream_id, values=values)
     
-    # Run test on seeded data
-    unittest.main(exit=False)
+    try:
+        # Run test on seeded data
+        unittest.main(exit=False)
+    finally:
+        # Remove created SDS Stream and Type
+        cleanup(namespace_id, type_id, stream_id)
 
-    # Remove created SDS Stream and Type
-    cleanup(namespace_id, type_id, stream_id)
+
