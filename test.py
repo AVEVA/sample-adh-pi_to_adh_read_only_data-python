@@ -89,11 +89,11 @@ class SDSPythonSampleTests(unittest.TestCase):
 
         # Event with SystemStateCode and no Value
         sleep(1)
-        eventSystemCode = PIToOcsEvent()
-        eventSystemCode.SystemStateCode = '246'
-        eventSystemCode.DigitalStateName = 'I/O Timeout'
+        event_system_code = PIToOcsEvent()
+        event_system_code.SystemStateCode = '246'
+        event_system_code.DigitalStateName = 'I/O Timeout'
 
-        return [event_value, event_negative_value, event_questionable, eventSystemCode]
+        return [event_value, event_negative_value, event_questionable, event_system_code]
 
     def cleanup(self, namespace_id: str, type_id: str, stream_id: str):
         try:
