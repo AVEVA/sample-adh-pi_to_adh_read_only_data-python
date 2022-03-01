@@ -7,8 +7,8 @@ class PIToOcsEvent:
     """Represents a PI event to be injected into Sds Service"""
 
     def __init__(self):
-        self._Timestamp = datetime.utcnow().isoformat()
-        self._value = ''
+        self._Timestamp = ''
+        self._Value = ''
         self._IsQuestionable = False
         self._IsSubstituted = False
         self._IsAnnotated = False
@@ -25,12 +25,12 @@ class PIToOcsEvent:
         self._Timestamp = Timestamp
 
     @property
-    def value(self):
-        return self._value
+    def Value(self):
+        return self._Value
 
-    @value.setter
-    def value(self, value):
-        self._value = value
+    @Value.setter
+    def Value(self, value):
+        self._Value = value
 
     @property
     def IsQuestionable(self):

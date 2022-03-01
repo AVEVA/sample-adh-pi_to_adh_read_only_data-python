@@ -1,5 +1,6 @@
 """This script tests the SDS Python sample script"""
 
+from datetime import datetime, timedelta
 import json
 from typing import List
 import unittest
@@ -7,7 +8,6 @@ import random
 from ocs_sample_library_preview import (ADHClient, SdsStream, SdsType, SdsTypeProperty, SdsTypeCode, SdsError)
 from PIToOcsEvent import PIToOcsEvent
 from program import main
-from time import sleep
 
 
 class SDSPythonSampleTests(unittest.TestCase):
@@ -71,27 +71,30 @@ class SDSPythonSampleTests(unittest.TestCase):
 
 
     def create_test_values(self) -> List[PIToOcsEvent]:
+        # Get current time to create offset timestamps
+        current_time = datetime.utcnow()
+
         # Normal event with positive Value
         event_value = PIToOcsEvent()
-        event_value.value = random.uniform(0, 100)
+        event_value.Value = random.uniform(0, 100)
+        event_value.Timestamp = current_time.isoformat()
 
         # Normal event with negative Value
-        # Sleep to avoid identical timestamps
-        sleep(1)
         event_negative_value = PIToOcsEvent()
-        event_negative_value.value = random.uniform(0, -100)
+        event_negative_value.Value = random.uniform(0, -100)
+        event_negative_value.Timestamp = (current_time - timedelta(seconds=1)).isoformat()
 
         # Event with IsQuestionable as true
-        sleep(1)
         event_questionable = PIToOcsEvent()
         event_questionable.IsQuestionable = True
-        event_questionable.value = random.uniform(0, 100)
+        event_questionable.Value = random.uniform(0, 100)
+        event_questionable.Timestamp = (current_time - timedelta(seconds=2)).isoformat()
 
         # Event with SystemStateCode and no Value
-        sleep(1)
         event_system_code = PIToOcsEvent()
         event_system_code.SystemStateCode = '246'
         event_system_code.DigitalStateName = 'I/O Timeout'
+        event_system_code.Timestamp = (current_time - timedelta(seconds=3)).isoformat()
 
         return [event_value, event_negative_value, event_questionable, event_system_code]
 
@@ -122,7 +125,7 @@ class SDSPythonSampleTests(unittest.TestCase):
         type = self.create_type(type_id=self.type_id)
         self.create_stream(stream_id=self.stream_id, type_id=type.Id)
 
-        print('Create and upload test values, sleeping 1 second in between creation to avoid identical timestamps')
+        print('Create and upload test values')
         values = self.create_test_values()
         self.sds_client.Streams.insertValues(namespace_id=self.namespace_id, stream_id=self.stream_id, values=values)
 
