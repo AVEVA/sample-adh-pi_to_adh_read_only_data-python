@@ -274,6 +274,8 @@ Note that there are more methods provided in the SdsClient than are discussed in
 
 Automated test uses Python 3.9.1 x64
 
+`Note: Testing the sample by running the test.py module requires a Client with access to Create and Delete SDS Types and Streams`
+
 For the main PI to ADH read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS_READ_DATA.md)  
 For the main ADH samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
 For the main AVEVA samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
