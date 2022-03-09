@@ -100,7 +100,20 @@ def main(test=False):
 
         print_data(values['Rows'])
 
-        print('Step 5. Retrieve Range events')
+        print('Step 5. Retrieve Paged Window events')
+        if community_id:
+            pagedValues = sds_client.SharedStreams.getWindowValuesPaged(community_tenant_id, community_namespace_id, community_id, value_class=None, stream_id=stream.Id, start=startIndex, end=endIndex, count=2)
+        else:
+            pagedValues = sds_client.Streams.getWindowValuesPaged(namespace_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2)
+            
+        while not pagedValues.end():
+            print_data(pagedValues.Results)
+            if community_id:
+                pagedValues = sds_client.SharedStreams.getWindowValuesPaged(community_tenant_id, community_namespace_id, community_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2, continuation_token=pagedValues.ContinuationToken)               
+            else:
+                pagedValues = sds_client.Streams.getWindowValuesPaged(namespace_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2, continuation_token=pagedValues.ContinuationToken)
+        
+        print('Step 6. Retrieve Range events')
         if community_id:
             values = sds_client.SharedStreams.getRangeValues(
                 community_tenant_id, community_namespace_id, community_id, stream.Id, start=startIndex, value_class=None, skip=0, count=10, 
@@ -112,7 +125,7 @@ def main(test=False):
 
         print_data(values)
 
-        print('Step 6. Retrieve Interpolated events')
+        print('Step 7. Retrieve Interpolated events')
         print('Sds can interpolate or extrapolate data at an index location where data does not explicitly exist:')
         if community_id:
             retrieved_interpolated = sds_client.SharedStreams.getRangeValuesInterpolated(
@@ -123,7 +136,7 @@ def main(test=False):
 
         print_data(retrieved_interpolated)
 
-        print('Step 7. Retrieve Filtered events')
+        print('Step 8. Retrieve Filtered events')
         print(f'To show the filter functionality, we will use the less than operator to show values less than 0. (This value can be updated in filter statement below to better fit the data set)')
         if community_id:
             filtered_events = sds_client.SharedStreams.getWindowValues(

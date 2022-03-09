@@ -19,10 +19,11 @@ class SDSPythonSampleTests(unittest.TestCase):
         self.setup_data()
 
         # Test main program
-        main(True)
-
-        # Clean up test data
-        self.cleanup(self.namespace_id, self.type_id, self.stream_id)
+        try:
+            main(True)
+        finally:
+            # Clean up test data
+            self.cleanup(self.namespace_id, self.type_id, self.stream_id)
 
     def get_appsettings(self):
         """Open and parse the appsettings.json file"""
