@@ -41,7 +41,7 @@ Streams in SDS are referred to by their Id rather than by their name as is commo
 
 ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>
 
-The SDS portal can be found by navigating to the [Cloud Portal](http://datahub.connect.aveva) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
+The SDS portal can be found by navigating to the [Cloud Portal](http://datahub.connect.aveva.com) and visiting the *Sequential Data Store* option under the *Data Management* tab on the left hand menu, where you can find the search bar in the top center.
 
 To do this programatically you can use the `getStreams` method, for more information see the [Retrieve Streams by Query](#retreive-streams-by-query) section below.
 ## Establish a Connection
@@ -72,11 +72,11 @@ Included in the sample there is a configuration file with placeholders that need
 
 ### AVEVA Data Hub
 
-First, a valid namespace Id for the tenant must be given. In SDS, a namespace provides isolation within a Tenant. Each namespace has its own collection of Streams, Types, and Stream Views. It is not possible to programmatically create or delete a namespace. If you are a new user, be sure to go to the [Cloud Portal](http://datahub.connect.aveva) and create a namespace using your tenant login credentials provided by AVEVA. You must provide the namespace Id of a valid namespace in `appsettings.json` for the sample to function properly.
+First, a valid namespace Id for the tenant must be given. In SDS, a namespace provides isolation within a Tenant. Each namespace has its own collection of Streams, Types, and Stream Views. It is not possible to programmatically create or delete a namespace. If you are a new user, be sure to go to the [Cloud Portal](http://datahub.connect.aveva.com) and create a namespace using your tenant login credentials provided by AVEVA. You must provide the namespace Id of a valid namespace in `appsettings.json` for the sample to function properly.
 
 The SDS Service is secured using Azure Active Directory. The sample application is an example of a _credential client_. Credential clients provide a client Id and secret that are authenticated against the directory and are associated with a given tenant. They are created through the tenant's Security portal. The steps necessary to create a new client Id and secret are described below.
 
-Log on to the [Cloud Portal](https://datahub.connect.aveva) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
+Log on to the [Cloud Portal](https://datahub.connect.aveva.com) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
 
 To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to ADH stream to be used. 
 
@@ -90,7 +90,7 @@ The values to be replaced are in `appsettings.json`:
 
 ```json
 {
-  "Resource": "https://uswe.datahub.connect.aveva",
+  "Resource": "https://uswe.datahub.connect.aveva.com",
   "ApiVersion": "v1",
   "TenantId": "PLACEHOLDER_REPLACE_WITH_TENANT_ID",
   "NamespaceId": "PLACEHOLDER_REPLACE_WITH_NAMESPACE_ID",

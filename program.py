@@ -106,6 +106,10 @@ def main(test=False):
         else:
             pagedValues = sds_client.Streams.getWindowValuesPaged(namespace_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2)
             
+        # Print first page
+        print_data(pagedValues.Results)
+
+        # Print any further pages
         while not pagedValues.end():
             print_data(pagedValues.Results)
             if community_id:
