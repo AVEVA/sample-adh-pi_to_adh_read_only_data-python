@@ -111,11 +111,11 @@ def main(test=False):
 
         # Print any further pages
         while not pagedValues.end():
-            print_data(pagedValues.Results)
             if community_id:
                 pagedValues = sds_client.SharedStreams.getWindowValuesPaged(community_tenant_id, community_namespace_id, community_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2, continuation_token=pagedValues.ContinuationToken)               
             else:
                 pagedValues = sds_client.Streams.getWindowValuesPaged(namespace_id, stream.Id, value_class=None, start=startIndex, end=endIndex, count=2, continuation_token=pagedValues.ContinuationToken)
+            print_data(pagedValues.Results)
         
         print('Step 6. Retrieve Range events')
         if community_id:
