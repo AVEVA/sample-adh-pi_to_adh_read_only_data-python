@@ -177,6 +177,8 @@ When ingressing data using PI to ADH, the resulting stream types contain a certa
 
 The amount of information included can be managed by setting the verbosity, which we will show in more detail below.
 
+These stream types are created automatically by the PI to ADH transfer, but are regular SDS types at their core. API calls used in this sample also apply to user defined SDS types, for examples using user defined types see the [SDS Waveform samples](https://github.com/osisoft/OSI-Samples-ADH/blob/main/docs/SDS_WAVEFORM.md).
+
 #### Verbosity
 
 SDS read APIs supports an accept-verbosity header that will set whether verbose output should be excluded. A value is considered verbose if it is the default value for its type, such as false for a boolean, null for a string, etc. The following example output demonstrates responses for the same call using verbose and non-verbose values:
