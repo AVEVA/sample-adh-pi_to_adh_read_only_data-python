@@ -5,7 +5,7 @@ import json
 from typing import List
 import unittest
 import random
-from ocs_sample_library_preview import (ADHClient, SdsStream, SdsType, SdsTypeProperty, SdsTypeCode, SdsError)
+from adh_sample_library_preview import (ADHClient, SdsStream, SdsType, SdsTypeProperty, SdsTypeCode, SdsError)
 from PIToOcsEvent import PIToOcsEvent
 from program import main
 

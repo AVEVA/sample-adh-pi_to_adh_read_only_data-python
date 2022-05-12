@@ -3,7 +3,7 @@
 import json
 import datetime
 
-from ocs_sample_library_preview import (ADHClient)
+from adh_sample_library_preview import (ADHClient)
 
 def get_appsettings():
     """Open and parse the appsettings.json file"""
