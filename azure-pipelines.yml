@@ -34,6 +34,7 @@ variables:
 
 jobs:
   - job: Tests_ADH
+    condition: ne(variables['Build.Reason'], 'Schedule')
     pool:
       name: 00-OSIManaged-Containers
       demands: Agent.OS -equals Linux
