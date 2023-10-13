@@ -1,6 +1,6 @@
 # Reading PI to ADH Values from Sequential Data Store Python Sample
 
-**Version:** 1.0.4
+**Version:** 1.0.5
 
 [![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-pi-to-adh-read-only-data-python?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=4498&branchName=main)
 
