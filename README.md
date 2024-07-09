@@ -1,16 +1,16 @@
-# Reading PI to ADH Values from Sequential Data Store Python Sample
+# Reading PI to Cds Values from Sequential Data Store Python Sample
 
 **Version:** 1.0.5
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-pi-to-adh-read-only-data-python?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=4498&branchName=main)
+[![Build Status](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_apis/build/status%2Fproduct-readiness%2FADH%2FAVEVA.sample-adh-pi_to_adh_read_only_data-python?repoName=AVEVA%2Fsample-adh-pi_to_adh_read_only_data-python&branchName=main)](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_build/latest?definitionId=16193&repoName=AVEVA%2Fsample-adh-pi_to_adh_read_only_data-python&branchName=main)
 
 ## Building a Python client to make REST API calls to the SDS Service
 
-The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from a stream in SDS created from a PI to ADH transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
+The sample code in this topic demonstrates how to invoke SDS REST APIs using Python to read values from a stream in SDS created from a PI to Cds transfer. By examining the code, you will see how to establish a connection to SDS, obtain an authorization token, and query SDS for values.
 
 The sections that follow provide a brief description of the process from beginning to end.
 
-`Note: This sample requires an Id of a PI to ADH stream already created in SDS.`
+`Note: This sample requires an Id of a PI to Cds stream already created in SDS.`
 
 Developed against Python 3.10.1
 
@@ -32,9 +32,9 @@ or
 1. Install pytest `pip install pytest`
 1. Run `pytest program.py`
 
-## PI Tag Name to ADH Stream Id
+## PI Tag Name to Cds Stream Id
 
-Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to ADH stream corresponding to your PI tag name in SDS, you can search in the SDS portal using the following format:
+Streams in SDS are referred to by their Id rather than by their name as is common with PI tags. To find the PI to Cds stream corresponding to your PI tag name in SDS, you can search in the SDS portal using the following format:
 
 ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>
 
@@ -61,13 +61,13 @@ Each call to the SDS REST API consists of an HTTP request along with a specific 
 | PUT         | Update         | message body     |
 | DELETE      | Delete         | URL parameters   |
 
-Note: Only the GET method will be used in this sample as it targets clients limited to read permissions, the [ADH waveform sample](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md) is available and more in depth to cover every HTTP method.
+Note: Only the GET method will be used in this sample as it targets clients limited to read permissions, the [Cds waveform sample](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/SDS_WAVEFORM.md) is available and more in depth to cover every HTTP method.
 
 ## Configure the Sample
 
 Included in the sample there is a configuration file with placeholders that need to be replaced with the proper values. They include information for authentication, connecting to the SDS Service, pointing to a namespace, and retrieving stream data.
 
-### AVEVA Data Hub
+### CONNECT data services
 
 First, a valid namespace Id for the tenant must be given. In SDS, a namespace provides isolation within a Tenant. Each namespace has its own collection of Streams, Types, and Stream Views. It is not possible to programmatically create or delete a namespace. If you are a new user, be sure to go to the [Cloud Portal](http://datahub.connect.aveva.com) and create a namespace using your tenant login credentials provided by AVEVA. You must provide the namespace Id of a valid namespace in `appsettings.json` for the sample to function properly.
 
@@ -75,7 +75,7 @@ The SDS Service is secured using Azure Active Directory. The sample application 
 
 Log on to the [Cloud Portal](https://datahub.connect.aveva.com) and navigate to the `Clients` page under the `Security` tab, which is situated along left of the webpage. This sample program covers data retrieval, so the client provided needs to have access to said data. 
 
-To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to ADH stream to be used. 
+To create a new client, click `Add Client` in the top pane of the page and follow the prompts, ensuring that the appropriate roles are assigned to allow the client to read values from the PI to Cds stream to be used. 
 
 To create a new secret for a client, select the client and click the `Add Secret` button under the client details pane then follow the prompts. Note that the secret is only displayed at the time of creation and cannot be retrieved at a later time.
 
@@ -100,9 +100,9 @@ The values to be replaced are in `appsettings.json`:
 
 ### Community
 
-If you are accessing a stream shared in an ADH community, enter the community Id in the `CommunityId` field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
+If you are accessing a stream shared in an Cds community, enter the community Id in the `CommunityId` field of the configuration. Make sure to also grant the appropriate "Community Member" role to the Client-Credentials Client used by the sample. 
 
-If you are not using ADH communities, leave the `CommunityId` field blank.
+If you are not using Cds communities, leave the `CommunityId` field blank.
 
 ## Obtain an Authentication Token
 
@@ -122,7 +122,7 @@ This is handled by the python library.
 
 ## Retrieve Stream
 
-To run this sample we will need to first retrieve the PI to ADH stream to read values from. This is done by calling the `getStream` method providing the Id of the stream to retrieve. The stream Id is configured in the `appsettings.json` file as `StreamId`.
+To run this sample we will need to first retrieve the PI to Cds stream to read values from. This is done by calling the `getStream` method providing the Id of the stream to retrieve. The stream Id is configured in the `appsettings.json` file as `StreamId`.
 
 `getStream` is used for retrieving a stream and its information. This is the function definition:
 
@@ -143,7 +143,7 @@ stream = client.Streams.getStream(self, namespace_id, stream_id)
 
 ## Retreive Streams by Query
 
-If you would like to query SDS for multiple streams we can use the `getStreams` method providing a query parameter. This could be used to find PI to ADH streams given your PI tag and PI Server names as shown earlier by providing the same query format, ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>. Following is the function definition:
+If you would like to query SDS for multiple streams we can use the `getStreams` method providing a query parameter. This could be used to find PI to Cds streams given your PI tag and PI Server names as shown earlier by providing the same query format, ID:PI_<YOUR_SERVER_NAME>_* AND Name:<PI_TAG_NAME>. Following is the function definition:
 
 ```python
 streams = getStreams(self, namespace_id, query, skip, count):
@@ -160,9 +160,9 @@ streams = getStreams(self, namespace_id, query, skip, count):
 
 The SDS read API features different methods of reading values, in this sample we will demonstrate reading Window, Range, and Filtered values, as well as using Interpolation.
 
-#### PI to ADH Stream properties
+#### PI to Cds Stream properties
 
-When ingressing data using PI to ADH, the resulting stream types contain a certain set of PI point attributes as stream type properties to give more information about the data:
+When ingressing data using PI to Cds, the resulting stream types contain a certain set of PI point attributes as stream type properties to give more information about the data:
 
 | Column         | Description     | 
 |--------------|-----------|
@@ -174,7 +174,7 @@ When ingressing data using PI to ADH, the resulting stream types contain a certa
 
 The amount of information included can be managed by setting the verbosity, which we will show in more detail below.
 
-These stream types are created automatically by the PI to ADH transfer, but are regular SDS types at their core. API calls used in this sample also apply to user defined SDS types, for examples using user defined types see the [SDS Waveform samples](https://github.com/osisoft/OSI-Samples-ADH/blob/main/docs/SDS_WAVEFORM.md).
+These stream types are created automatically by the PI to Cds transfer, but are regular SDS types at their core. API calls used in this sample also apply to user defined SDS types, for examples using user defined types see the [SDS Waveform samples](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/SDS_WAVEFORM.md).
 
 #### Verbosity
 
@@ -275,6 +275,6 @@ Automated test uses Python 3.9.1 x64
 
 `Note: Testing the sample by running the test.py module requires a Client with access to Create and Delete SDS Types and Streams`
 
-For the main PI to ADH read only stream samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/PI_TO_OCS_READ_DATA.md)  
-For the main ADH samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)
-For the main AVEVA samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
+For the main PI to Cds read only stream samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/PI_TO_ADH_READ_DATA.md)
+For the main Cds samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations)  
+For the main AVEVA samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples)
